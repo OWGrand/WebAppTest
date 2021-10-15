@@ -1,0 +1,20 @@
+#! /bin/bash
+
+#updating the OS in order to avoid compatibility issues and dependency issues
+yum -y update && yum -y upgrade
+
+#installing node js dependencies and DB client/server
+curl --silent --location https://rpm.nodesource.com/setup_14.x | bash - | yum -y install nodejs
+npm install express
+yum install -y amazon-linux-extras redis6-server
+systemctl enable redis && systemctl start redis
+
+#installing git
+yum -y install git
+
+#copy the repo files and start the Node.JS app
+git clone https://github.com/OWGrand/WebAppTest.git ~/WebApp
+cd ~/WebApp
+git checkout staging
+node index.js
+
